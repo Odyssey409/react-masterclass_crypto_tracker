@@ -46,7 +46,8 @@ function App() {
         <Emoji>😀</Emoji>
       </Box>
       <Emoji>😀</Emoji>
-      {/* 여기 있는 Emoji는 pseudo  selecting에 의해 영향을 받지 않음 */}
+      {/* 여기 있는 Emoji는 pseudo  selecting에 의해 영향을 받지 않음 
+      Emoji에 대한 pseudo  selecting을 Box하위에 있는 Emoji로 했기 때문*/}
     </Wrapper>
   );
 }
