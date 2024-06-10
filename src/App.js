@@ -19,6 +19,10 @@ const rotateAnimation = keyframes`
   }
 `;
 
+const Emoji = styled.span`
+  font-size: 36px;
+`;
+
 const Box = styled.div`
   height: 100px;
   width: 100px;
@@ -28,13 +32,9 @@ const Box = styled.div`
   align-items: center;
   animation: ${rotateAnimation} 1s linear infinite;
 
-  span {
-    font-size: 36px;
+  ${Emoji} {
     &:hover {
-      font-size: 50px;
-    }
-    &:active {
-      opacity: 0;
+      font-size: 98px;
     }
   }
 `;
@@ -43,8 +43,10 @@ function App() {
   return (
     <Wrapper>
       <Box>
-        <span>😀</span>
+        <Emoji>😀</Emoji>
       </Box>
+      <Emoji>😀</Emoji>
+      {/* 여기 있는 Emoji는 pseudo  selecting에 의해 영향을 받지 않음 */}
     </Wrapper>
   );
 }
