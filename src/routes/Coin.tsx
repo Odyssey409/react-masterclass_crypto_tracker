@@ -1,10 +1,8 @@
-import { useLocation, useParams } from "react-router-dom";
+import { Switch, Route, useLocation, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
-
-interface RouteParams {
-  coinId: string;
-}
+import Price from "./Price";
+import Chart from "./Chart";
 
 const Title = styled.h1`
   font-size: 48px;
@@ -29,6 +27,31 @@ const Header = styled.header`
   align-items: center;
 `;
 
+const Overview = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 10px;
+`;
+const OverviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span:first-child {
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+`;
+const Description = styled.p`
+  margin: 20px 0px;
+`;
+
+interface RouteParams {
+  coinId: string;
+}
 interface RouteState {
   name: string;
 }
@@ -93,7 +116,7 @@ function Coin() {
   const [loading, setLoading] = useState(true);
   const { state } = useLocation<RouteState>();
   const [info, setInfo] = useState<InfoData>();
-  const [priceinfo, setPriceInfo] = useState<PriceData>();
+  const [priceInfo, setPriceInfo] = useState<PriceData>();
 
   useEffect(() => {
     (async () => {
@@ -105,15 +128,56 @@ function Coin() {
       ).json();
       setInfo(infoData);
       setPriceInfo(priceData);
+      setLoading(false);
     })();
-  }, []);
+  }, [coinId]);
 
   return (
     <Container>
       <Header>
-        <Title>{state?.name || "Loading..."}</Title>
+        <Title>
+          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+        </Title>
       </Header>
-      {loading ? <Loader>Loading...</Loader> : null}
+      {loading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Overview>
+            <OverviewItem>
+              <span>Rank:</span>
+              <span>{info?.rank}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Symbol:</span>
+              <span>${info?.symbol}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Open Source:</span>
+              <span>{info?.open_source ? "Yes" : "No"}</span>
+            </OverviewItem>
+          </Overview>
+          <Description>{info?.description}</Description>
+          <Overview>
+            <OverviewItem>
+              <span>Total Supply:</span>
+              <span>{priceInfo?.total_supply}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Max Supply:</span>
+              <span>{priceInfo?.max_supply}</span>
+            </OverviewItem>
+          </Overview>
+          <Switch>
+            <Route path={`/${coinId}/price`}>
+              <Price />
+            </Route>
+            <Route path={`/${coinId}/chart`}>
+              <Chart />
+            </Route>
+          </Switch>
+        </>
+      )}
     </Container>
   );
 }
