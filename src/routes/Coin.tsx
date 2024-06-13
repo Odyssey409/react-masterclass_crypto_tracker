@@ -9,6 +9,7 @@ import {
 import { styled } from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
+import ChartCandle from "./ChartCandle";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
@@ -59,7 +60,7 @@ const Description = styled.p`
 `;
 const Tabs = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin: 25px 0px;
   gap: 10px;
 `;
@@ -146,6 +147,7 @@ function Coin() {
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+  const chartCandleMatch = useRouteMatch("/:coinId/chartCandle");
 
   // const [loading, setLoading] = useState(true);
   // const [info, setInfo] = useState<InfoData>();
@@ -229,6 +231,9 @@ function Coin() {
             <Tab isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>Chart</Link>
             </Tab>
+            <Tab isActive={chartCandleMatch !== null}>
+              <Link to={`/${coinId}/chartCandle`}>ChartCandle</Link>
+            </Tab>
             <Tab isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
@@ -240,6 +245,9 @@ function Coin() {
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />
+            </Route>
+            <Route path={`/${coinId}/chartCandle`}>
+              <ChartCandle coinId={coinId} />
             </Route>
           </Switch>
         </>
