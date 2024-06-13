@@ -26,14 +26,6 @@ function ChartCandle({ coinId }: ChartProps) {
     }
   );
 
-  const expectData = data ?? [];
-  const chartData = expectData?.map((price) => {
-    return {
-      x: price.time_close,
-      y: [price.open, price.high, price.low, price.close],
-    };
-  });
-
   return (
     <div>
       {isLoading ? (
@@ -43,7 +35,14 @@ function ChartCandle({ coinId }: ChartProps) {
           type="candlestick"
           series={[
             {
-              data: [],
+              data:
+                data?.map((price) => [
+                  price.time_close * 1000,
+                  Number(price.open) ?? [],
+                  Number(price.high) ?? [],
+                  Number(price.low) ?? [],
+                  Number(price.close) ?? [],
+                ]) ?? [],
             },
           ]}
           options={{
@@ -64,7 +63,7 @@ function ChartCandle({ coinId }: ChartProps) {
               width: 2,
             },
             yaxis: {
-              show: false,
+              show: true,
             },
             xaxis: {
               type: "datetime",
