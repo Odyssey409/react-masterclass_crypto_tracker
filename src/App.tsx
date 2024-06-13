@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { useState } from "react";
 import { styled, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
+import { Link } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -117,6 +118,27 @@ const ThemeToggle = styled.input`
   }
 `;
 
+const Home = styled.div`
+  background-color: "transparent";
+  color: ${(props) => props.theme.textColor};
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0px 0px 30px;
+  a {
+    padding: 20px;
+    transition: color 0.2s ease-in;
+    display: flex;
+    align-items: center;
+  }
+  &:hover {
+    a {
+      color: ${(props) => props.theme.accentColor};
+    }
+  }
+`;
+
 function App() {
   const [themeActive, setThemeActive] = useState(false);
 
@@ -136,6 +158,9 @@ function App() {
           />
           <span>Dark Mode</span>
         </ToggleLabel>
+        <Home>
+          <Link to={{ pathname: `/` }}>Home</Link>
+        </Home>
         <GlobalStyle />
         <Router />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
