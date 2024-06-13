@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { useState } from "react";
+import { styled, ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -66,12 +69,77 @@ a{
 }
 `;
 
+const ToggleLabel = styled.label`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin: 30px 0px 0px 30px;
+  justify-content: center;
+`;
+
+const ThemeToggle = styled.input`
+  appearance: none;
+  position: relative;
+  border: max(2px, 0.1em) solid gray;
+  border-radius: 1.25em;
+  width: 2.25em;
+  height: 1.25em;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    transform: scale(0.8);
+    background-color: gray;
+    transition: left 250ms linear;
+  }
+
+  &:checked::before {
+    background-color: white;
+    left: 1em;
+  }
+
+  &:checked {
+    background-color: tomato;
+    border-color: tomato;
+  }
+
+  &:focus-visible {
+    outline-offset: max(2px, 0.1em);
+    outline: max(2px, 0.1em) solid tomato;
+  }
+  &:enabled:hover {
+    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+  }
+`;
+
 function App() {
+  const [themeActive, setThemeActive] = useState(false);
+
+  const ThemeToggleHandle = () => {
+    if (themeActive !== true) setThemeActive(true);
+    else setThemeActive(false);
+  };
+
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      <ThemeProvider theme={themeActive ? darkTheme : lightTheme}>
+        <ToggleLabel>
+          <ThemeToggle
+            onClick={ThemeToggleHandle}
+            role="switch"
+            type="checkbox"
+          />
+          <span>Dark Mode</span>
+        </ToggleLabel>
+        <GlobalStyle />
+        <Router />
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      </ThemeProvider>
     </>
   );
 }
