@@ -142,10 +142,7 @@ const Home = styled.div`
 function App() {
   const [themeActive, setThemeActive] = useState(false);
 
-  const ThemeToggleHandle = () => {
-    if (themeActive !== true) setThemeActive(true);
-    else setThemeActive(false);
-  };
+  const ThemeToggleHandle = () => setThemeActive((current) => !current);
 
   return (
     <>
