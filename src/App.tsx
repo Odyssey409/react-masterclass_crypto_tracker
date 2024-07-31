@@ -5,6 +5,8 @@ import { useState } from "react";
 import { styled, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./routes/atoms";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -71,18 +73,12 @@ a{
 `;
 
 function App() {
-  const [darkthemeActive, setDarkThemeActive] = useState(false);
-
-  const ThemeToggleHandle = () => setDarkThemeActive((current) => !current);
-
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
-      <ThemeProvider theme={darkthemeActive ? darkTheme : lightTheme}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Router
-          darkthemeActive={darkthemeActive}
-          ThemeToggleHandle={ThemeToggleHandle}
-        />
+        <Router />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </ThemeProvider>
     </>

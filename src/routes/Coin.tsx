@@ -80,6 +80,27 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
+const Home = styled.div`
+  background-color: "transparent";
+  color: ${(props) => props.theme.textColor};
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0px 0px 30px;
+  a {
+    padding: 20px;
+    transition: color 0.2s ease-in;
+    display: flex;
+    align-items: center;
+  }
+  &:hover {
+    a {
+      color: ${(props) => props.theme.accentColor};
+    }
+  }
+`;
+
 interface RouteParams {
   coinId: string;
 }
@@ -142,11 +163,9 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {
-  darkthemeActive: boolean;
-}
+interface ICoinProps {}
 
-function Coin({ darkthemeActive }: ICoinProps) {
+function Coin({}: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -196,6 +215,9 @@ function Coin({ darkthemeActive }: ICoinProps) {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
+      <Home>
+        <Link to={{ pathname: `/` }}>Home</Link>
+      </Home>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -248,7 +270,7 @@ function Coin({ darkthemeActive }: ICoinProps) {
               <Price coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
-              <Chart darkthemeActive={darkthemeActive} coinId={coinId} />
+              <Chart coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chartCandle`}>
               <ChartCandle coinId={coinId} />

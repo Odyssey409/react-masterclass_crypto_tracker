@@ -40,6 +40,7 @@ const Coin = styled.li`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+  margin-left: 130px;
 `;
 
 const Loader = styled.span`
@@ -101,27 +102,6 @@ const ThemeToggle = styled.input`
   }
 `;
 
-const Home = styled.div`
-  background-color: "transparent";
-  color: ${(props) => props.theme.textColor};
-  width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 30px 0px 0px 30px;
-  a {
-    padding: 20px;
-    transition: color 0.2s ease-in;
-    display: flex;
-    align-items: center;
-  }
-  &:hover {
-    a {
-      color: ${(props) => props.theme.accentColor};
-    }
-  }
-`;
-
 interface ICoin {
   id: string;
   name: string;
@@ -132,11 +112,9 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {
-  ThemeToggleHandle: () => void;
-}
+interface ICoinsProps {}
 
-function Coins({ ThemeToggleHandle }: ICoinsProps) {
+function Coins({}: ICoinsProps) {
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
   // useEffect(() => {
@@ -156,16 +134,9 @@ function Coins({ ThemeToggleHandle }: ICoinsProps) {
         <title>코인</title>
       </Helmet>
       <Header>
-        <Home>
-          <Link to={{ pathname: `/` }}>Home</Link>
-        </Home>
         <Title>코인</Title>
         <ToggleLabel>
-          <ThemeToggle
-            onClick={ThemeToggleHandle}
-            role="switch"
-            type="checkbox"
-          />
+          <ThemeToggle role="switch" type="checkbox" />
           <span>Dark Mode</span>
         </ToggleLabel>
       </Header>

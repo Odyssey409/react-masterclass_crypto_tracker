@@ -2,19 +2,16 @@ import { Route, Switch } from "react-router-dom";
 import Coin from "./routes/Coin";
 import Coins from "./routes/Coins";
 
-interface IRouterProps {
-  ThemeToggleHandle: () => void;
-  darkthemeActive: boolean;
-}
+interface IRouterProps {}
 
-function Router({ ThemeToggleHandle, darkthemeActive }: IRouterProps) {
+function Router({}: IRouterProps) {
   return (
     <Switch>
       <Route path="/:coinId">
-        <Coin darkthemeActive={darkthemeActive} />
+        <Coin />
       </Route>
       <Route path="/">
-        <Coins ThemeToggleHandle={ThemeToggleHandle} />
+        <Coins />
       </Route>
     </Switch>
   );
