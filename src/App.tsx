@@ -70,96 +70,19 @@ a{
 }
 `;
 
-const ToggleLabel = styled.label`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  margin: 30px 0px 0px 30px;
-  justify-content: center;
-`;
-
-const ThemeToggle = styled.input`
-  appearance: none;
-  position: relative;
-  border: max(2px, 0.1em) solid gray;
-  border-radius: 1.25em;
-  width: 2.25em;
-  height: 1.25em;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    transform: scale(0.8);
-    background-color: gray;
-    transition: left 250ms linear;
-  }
-
-  &:checked::before {
-    background-color: white;
-    left: 1em;
-  }
-
-  &:checked {
-    background-color: tomato;
-    border-color: tomato;
-  }
-
-  &:focus-visible {
-    outline-offset: max(2px, 0.1em);
-    outline: max(2px, 0.1em) solid tomato;
-  }
-  &:enabled:hover {
-    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
-  }
-`;
-
-const Home = styled.div`
-  background-color: "transparent";
-  color: ${(props) => props.theme.textColor};
-  width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 30px 0px 0px 30px;
-  a {
-    padding: 20px;
-    transition: color 0.2s ease-in;
-    display: flex;
-    align-items: center;
-  }
-  &:hover {
-    a {
-      color: ${(props) => props.theme.accentColor};
-    }
-  }
-`;
-
 function App() {
-  const [themeActive, setThemeActive] = useState(false);
+  const [darkthemeActive, setDarkThemeActive] = useState(false);
 
-  const ThemeToggleHandle = () => setThemeActive((current) => !current);
+  const ThemeToggleHandle = () => setDarkThemeActive((current) => !current);
 
   return (
     <>
-      <ThemeProvider theme={themeActive ? darkTheme : lightTheme}>
-        <ToggleLabel>
-          <ThemeToggle
-            onClick={ThemeToggleHandle}
-            role="switch"
-            type="checkbox"
-          />
-          <span>Dark Mode</span>
-        </ToggleLabel>
-        <Home>
-          <Link to={{ pathname: `/` }}>Home</Link>
-        </Home>
+      <ThemeProvider theme={darkthemeActive ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Router />
+        <Router
+          darkthemeActive={darkthemeActive}
+          ThemeToggleHandle={ThemeToggleHandle}
+        />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </ThemeProvider>
     </>

@@ -53,6 +53,75 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const ToggleLabel = styled.label`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin: 30px 0px 0px 30px;
+  justify-content: center;
+`;
+
+const ThemeToggle = styled.input`
+  appearance: none;
+  position: relative;
+  border: max(2px, 0.1em) solid gray;
+  border-radius: 1.25em;
+  width: 2.25em;
+  height: 1.25em;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    transform: scale(0.8);
+    background-color: gray;
+    transition: left 250ms linear;
+  }
+
+  &:checked::before {
+    background-color: white;
+    left: 1em;
+  }
+
+  &:checked {
+    background-color: tomato;
+    border-color: tomato;
+  }
+
+  &:focus-visible {
+    outline-offset: max(2px, 0.1em);
+    outline: max(2px, 0.1em) solid tomato;
+  }
+  &:enabled:hover {
+    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+  }
+`;
+
+const Home = styled.div`
+  background-color: "transparent";
+  color: ${(props) => props.theme.textColor};
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0px 0px 30px;
+  a {
+    padding: 20px;
+    transition: color 0.2s ease-in;
+    display: flex;
+    align-items: center;
+  }
+  &:hover {
+    a {
+      color: ${(props) => props.theme.accentColor};
+    }
+  }
+`;
+
 interface ICoin {
   id: string;
   name: string;
@@ -63,7 +132,11 @@ interface ICoin {
   type: string;
 }
 
-function Coins() {
+interface ICoinsProps {
+  ThemeToggleHandle: () => void;
+}
+
+function Coins({ ThemeToggleHandle }: ICoinsProps) {
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
   // useEffect(() => {
@@ -83,13 +156,24 @@ function Coins() {
         <title>코인</title>
       </Helmet>
       <Header>
+        <Home>
+          <Link to={{ pathname: `/` }}>Home</Link>
+        </Home>
         <Title>코인</Title>
+        <ToggleLabel>
+          <ThemeToggle
+            onClick={ThemeToggleHandle}
+            role="switch"
+            type="checkbox"
+          />
+          <span>Dark Mode</span>
+        </ToggleLabel>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <CoinsList>
-          {data?.slice(0, 100).map((coin) => (
+          {data?.slice(0, 20).map((coin) => (
             <Coin key={coin.id}>
               <Link
                 to={{ pathname: `/${coin.id}`, state: { name: coin.name } }}
