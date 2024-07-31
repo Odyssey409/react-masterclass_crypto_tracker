@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { isDarkAtom } from "./atoms";
+import { useSetRecoilState } from "recoil";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -128,6 +130,11 @@ function Coins({}: ICoinsProps) {
 
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
+  const setDarkATom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => {
+    setDarkATom((prev) => !prev);
+  };
+
   return (
     <Container>
       <Helmet>
@@ -136,7 +143,7 @@ function Coins({}: ICoinsProps) {
       <Header>
         <Title>코인</Title>
         <ToggleLabel>
-          <ThemeToggle role="switch" type="checkbox" />
+          <ThemeToggle onClick={toggleDarkAtom} role="switch" type="checkbox" />
           <span>Dark Mode</span>
         </ToggleLabel>
       </Header>
