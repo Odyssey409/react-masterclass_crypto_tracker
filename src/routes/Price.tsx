@@ -24,7 +24,7 @@ const Table = styled.table`
 
   tr {
     border-top: 1px solid #c1c3d1;
-    border-bottom-: 1px solid #c1c3d1;
+    border-bottom: 1px solid #c1c3d1;
     color: #666b85;
     font-size: 16px;
     font-weight: normal;
